@@ -1,0 +1,29 @@
+{
+  "name": "@marcmogdanz/typed-prisma-package",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Marc Mogdanz",
+  "scripts": {
+    "prepare": "npx prisma generate && tsc && cp src/index.d.ts dist/index.d.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MarcMogdanz/typed-prisma-package.git",
+    "directory": "prisma"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.10",
+    "prisma": "^3.3.0",
+    "typescript": "^4.4.4"
+  },
+  "bundledDependencies": [
+    "@prisma/client",
+    ".prisma"
+  ],
+  "license": "MIT"
+}

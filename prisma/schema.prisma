@@ -1,0 +1,16 @@
+generator client {
+  provider      = "prisma-client-js"
+  // make sure to pick the right one(s) for your usecase
+  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#binarytargets-options
+  binaryTargets = ["darwin", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id   String @id @default(uuid())
+  name String
+}

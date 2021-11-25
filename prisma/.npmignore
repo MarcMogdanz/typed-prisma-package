@@ -1,0 +1,4 @@
+migrations/
+.env
+schema.prisma
+src/

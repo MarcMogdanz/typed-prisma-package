@@ -1,0 +1,54 @@
+name: Prisma
+
+on:
+  push:
+    branches:
+      - master
+  pull_request: {}
+
+defaults:
+  run:
+    working-directory: prisma/
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+            ${{ runner.os }}-
+
+      - name: Setup Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Client
+        run: npx prisma generate
+
+      - name: Pack the package
+        run: npm pack
+
+      # setup again with the github npm registry
+      - name: Setup Node.js 16.x (GitHub npm registry)
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+          registry-url: https://npm.pkg.github.com/
+          scope: "@marcmogdanz"
+
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
