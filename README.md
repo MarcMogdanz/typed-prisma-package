@@ -1,0 +1,1 @@
+# typed-prisma-package
